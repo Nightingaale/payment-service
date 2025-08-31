@@ -53,6 +53,7 @@ dependencies {
     testImplementation 'org.springframework.kafka:spring-kafka-test'
 
     runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
+    runtimeOnly 'org.postgresql:postgresql'
 
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
