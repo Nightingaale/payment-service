@@ -1,0 +1,13 @@
+spring:
+  config:
+    import: vault://secret/prod/payment-service
+  cloud:
+    vault:
+      uri: http://vault:8200
+      authentication: token
+      token: root
+      kv:
+        enabled: true
+        backend: secret
+        application-name: prod/payment-service
+      enabled: true
