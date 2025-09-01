@@ -1,0 +1,20 @@
+eureka:
+  instance:
+    hostname: ${EUREKA.INSTANCE.HOSTNAME}
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: ${EUREKA.CLIENT.SERVICE_URL.DEFAULT_ZONE}
+    healthcheck:
+      enabled: true
+
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${JWT_ISSUER_URI}
+
+keycloak:
+  jwks-certs: ${KEYCLOAK.JWKS_CERTS}
