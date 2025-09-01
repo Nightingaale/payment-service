@@ -1,3 +1,44 @@
+server:
+  port: 8087
+
 spring:
   application:
     name: payment-service
+  threads:
+    virtual:
+      enabled: true
+  cloud:
+    gateway:
+      server:
+        webflux:
+          discovery:
+            locator:
+              lower-case-service-id: true
+              enabled: true
+
+  kafka:
+    bootstrap-servers: kafka:9093
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    open-in-view: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://postgres:5432/postgres
+    username: postgres
+    password: example
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
+
+logging:
+  level:
+    org:
+      hibernate: WARN
