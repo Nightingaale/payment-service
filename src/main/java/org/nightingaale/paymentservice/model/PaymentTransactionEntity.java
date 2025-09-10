@@ -17,7 +17,7 @@ import org.nightingaale.paymentservice.enums.PaymentTransactionStatus;
 public class PaymentTransactionEntity extends BaseEntity {
 
     @OneToOne
-    @JoinColumn(name = "payment_id", referencedColumnName = "id")
+    @JoinColumn(name = "payment_id", referencedColumnName = "transaction_id")
     private RefundTransactionEntity transactionId;
 
     @NotNull
