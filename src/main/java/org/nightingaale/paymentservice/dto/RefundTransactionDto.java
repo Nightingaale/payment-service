@@ -1,0 +1,7 @@
+package org.nightingaale.paymentservice.dto;
+
+import org.nightingaale.paymentservice.enums.PaymentTransactionStatus;
+
+public record RefundTransactionDto(Long id, Long transactionId, Long refundedAmount, PaymentTransactionStatus paymentStatus) {
+
+}
