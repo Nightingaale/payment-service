@@ -24,5 +24,8 @@ public class PaymentTransactionEntity extends BaseEntity {
     private PaymentTransactionStatus paymentStatus;
 
     @NotNull
+    private String errorMessage;
+
+    @NotNull
     private String currency;
 }
