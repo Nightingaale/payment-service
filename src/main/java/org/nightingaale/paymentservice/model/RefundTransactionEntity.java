@@ -9,7 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.nightingaale.paymentservice.enums.PaymentTransactionStatus;
+import org.nightingaale.paymentservice.model.enums.PaymentTransactionStatus;
 
 @Entity
 @Getter
