@@ -1,4 +1,4 @@
-package org.nightingaale.paymentservice.enums;
+package org.nightingaale.paymentservice.model.enums;
 
 import lombok.Getter;
 
