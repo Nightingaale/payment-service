@@ -1,4 +1,4 @@
-package org.nightingaale.paymentservice.dto;
+package org.nightingaale.paymentservice.model.dto;
 
 import org.nightingaale.paymentservice.model.enums.PaymentTransactionStatus;
 

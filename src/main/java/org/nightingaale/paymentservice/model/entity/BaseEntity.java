@@ -1,4 +1,4 @@
-package org.nightingaale.paymentservice.model;
+package org.nightingaale.paymentservice.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
