@@ -1,9 +1,6 @@
 package org.nightingaale.paymentservice.model.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,16 +16,19 @@ import org.nightingaale.paymentservice.model.enums.PaymentTransactionStatus;
 @Table(name = "refunds")
 public class RefundTransactionEntity extends BaseEntity {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long transactionId;
+    @NotNull
+    @Column(updatable = false, unique = true)
+    private Long refundTransactionId;
 
     @NotNull
+    @Column(updatable = false)
     private Long refundedAmount;
 
+    @Enumerated(EnumType.STRING)
     @NotNull
     private PaymentTransactionStatus paymentStatus;
 
     @NotNull
-    private String reason;
-
+    @Column(updatable = false)
+    private String errorMessage;
 }

@@ -16,16 +16,19 @@ import org.nightingaale.paymentservice.model.enums.PaymentTransactionStatus;
 @Table(name = "payments")
 public class PaymentTransactionEntity extends BaseEntity {
 
-    @OneToOne
-    @JoinColumn(name = "payment_id", referencedColumnName = "transaction_id")
-    private RefundTransactionEntity transactionId;
+    @NotNull
+    @Column(unique = true, updatable = false)
+    private Long paymentTransactionId;
 
+    @Enumerated(EnumType.STRING)
     @NotNull
     private PaymentTransactionStatus paymentStatus;
 
     @NotNull
-    private String errorMessage;
+    @Column(updatable = false)
+    private Long amount;
 
     @NotNull
+    @Column(updatable = false)
     private String currency;
 }
