@@ -6,7 +6,7 @@ import org.nightingaale.paymentservice.model.enums.PaymentTransactionStatus;
 
 import java.io.Serializable;
 
-public record PaymentLongDto(
+public record PaymentLogDto(
         Long logId,
         PaymentTransactionDto paymentTransactionId,
         RefundTransactionDto refundTransaction,
