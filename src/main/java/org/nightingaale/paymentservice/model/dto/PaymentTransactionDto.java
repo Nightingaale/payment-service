@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import org.nightingaale.paymentservice.model.enums.PaymentTransactionStatus;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public record PaymentTransactionDto(
@@ -12,6 +13,6 @@ public record PaymentTransactionDto(
         LocalDateTime updatedAt,
         @NotNull Long paymentTransactionId,
         @NotNull PaymentTransactionStatus paymentStatus,
-        @NotNull Long amount,
+        @NotNull BigDecimal amount,
         @NotNull String currency) implements Serializable {
 }

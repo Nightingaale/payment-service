@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.nightingaale.paymentservice.model.enums.PaymentTransactionStatus;
 
+import java.math.BigDecimal;
+
 @Entity
 @Getter
 @Setter
@@ -22,7 +24,7 @@ public class RefundTransactionEntity extends BaseEntity {
 
     @NotNull
     @Column(updatable = false)
-    private Long refundedAmount;
+    private BigDecimal refundedAmount;
 
     @Enumerated(EnumType.STRING)
     @NotNull

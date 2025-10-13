@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.nightingaale.paymentservice.model.enums.PaymentTransactionStatus;
 
+import java.math.BigDecimal;
+
 @Entity
 @Getter
 @Setter
@@ -26,7 +28,7 @@ public class PaymentTransactionEntity extends BaseEntity {
 
     @NotNull
     @Column(updatable = false)
-    private Long amount;
+    private BigDecimal amount;
 
     @NotNull
     @Column(updatable = false)
