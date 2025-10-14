@@ -8,8 +8,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.nightingaale.paymentservice.model.enums.PaymentMethodProvider;
 import org.nightingaale.paymentservice.model.enums.PaymentMethodType;
+import org.nightingaale.paymentservice.model.enums.converter.PaymentMethodProviderConverter;
+import org.nightingaale.paymentservice.model.enums.converter.PaymentMethodTypeConverter;
 
-@Entity
 @Getter
 @Setter
 @AllArgsConstructor
@@ -18,17 +19,18 @@ import org.nightingaale.paymentservice.model.enums.PaymentMethodType;
 public class PaymentMethodEntity extends BaseEntity {
 
     @NotNull
+    @Convert(converter = PaymentMethodTypeConverter.class)
     @Column(updatable = false)
-    @Enumerated(EnumType.STRING)
     private PaymentMethodType type;
 
-    @Enumerated(EnumType.STRING)
+
     @NotNull
+    @Convert(converter = PaymentMethodProviderConverter.class)
     @Column(updatable = false)
     private PaymentMethodProvider provider;
 
     @NotNull
-    @Column(updatable = false)
+    @Column(length = 16, updatable = false, nullable = true)
     private String maskedDetails;
 
     @OneToOne(fetch = FetchType.LAZY)

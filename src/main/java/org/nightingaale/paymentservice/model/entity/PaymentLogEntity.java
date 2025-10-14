@@ -10,10 +10,12 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.nightingaale.paymentservice.model.enums.PaymentMethodProvider;
 import org.nightingaale.paymentservice.model.enums.PaymentMethodType;
 import org.nightingaale.paymentservice.model.enums.PaymentTransactionStatus;
+import org.nightingaale.paymentservice.model.enums.converter.PaymentMethodProviderConverter;
+import org.nightingaale.paymentservice.model.enums.converter.PaymentMethodTypeConverter;
+import org.nightingaale.paymentservice.model.enums.converter.PaymentTransactionStatusConverter;
 
 import java.time.LocalDateTime;
 
-@Entity
 @Getter
 @Setter
 @AllArgsConstructor
@@ -39,15 +41,15 @@ public class PaymentLogEntity {
     private PaymentMethodEntity paymentMethod;
 
 
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = PaymentTransactionStatusConverter.class)
     @Column(updatable = false)
     private PaymentTransactionStatus status;
 
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = PaymentMethodProviderConverter.class)
     @Column(updatable = false)
     private PaymentMethodProvider provider;
 
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = PaymentMethodTypeConverter.class)
     @Column(updatable = false)
     private PaymentMethodType methodType;
 

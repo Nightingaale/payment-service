@@ -6,11 +6,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.nightingaale.paymentservice.model.enums.PaymentTransactionStatus;
+import org.nightingaale.paymentservice.model.enums.RefundTransactionStatus;
+import org.nightingaale.paymentservice.model.enums.converter.RefundTransactionStatusConverter;
 
 import java.math.BigDecimal;
 
-@Entity
 @Getter
 @Setter
 @AllArgsConstructor
@@ -26,9 +26,9 @@ public class RefundTransactionEntity extends BaseEntity {
     @Column(updatable = false)
     private BigDecimal refundedAmount;
 
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = RefundTransactionStatusConverter.class)
     @NotNull
-    private PaymentTransactionStatus paymentStatus;
+    private RefundTransactionStatus refundStatus;
 
     @NotNull
     @Column(updatable = false)

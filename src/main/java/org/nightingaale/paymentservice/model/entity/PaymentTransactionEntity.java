@@ -7,10 +7,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.nightingaale.paymentservice.model.enums.PaymentTransactionStatus;
+import org.nightingaale.paymentservice.model.enums.converter.PaymentTransactionStatusConverter;
 
 import java.math.BigDecimal;
 
-@Entity
 @Getter
 @Setter
 @AllArgsConstructor
@@ -22,7 +22,7 @@ public class PaymentTransactionEntity extends BaseEntity {
     @Column(unique = true, updatable = false)
     private Long paymentTransactionId;
 
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = PaymentTransactionStatusConverter.class)
     @NotNull
     private PaymentTransactionStatus paymentStatus;
 
