@@ -13,6 +13,6 @@ public enum PaymentMethodProvider {
                 return paymentMethodProvider;
             }
         }
-        throw new IllegalArgumentException("Unknown payment method: " + paymentMethod);
+        throw new IllegalArgumentException("Unknown payment provider: " + paymentMethod);
     }
 }

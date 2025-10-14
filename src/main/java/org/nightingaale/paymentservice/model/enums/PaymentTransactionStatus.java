@@ -14,6 +14,6 @@ public enum PaymentTransactionStatus {
                 return value;
             }
         }
-        throw new IllegalArgumentException("Invalid PaymentTransactionStatus: " + status);
+        throw new IllegalArgumentException("Invalid payment status: " + status);
     }
 }
