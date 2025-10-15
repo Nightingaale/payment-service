@@ -1,11 +1,13 @@
 package org.nightingaale.paymentservice.model.entity;
 
+import com.thoughtworks.xstream.converters.extended.CurrencyConverter;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.nightingaale.paymentservice.model.enums.CurrencyStatus;
 import org.nightingaale.paymentservice.model.enums.RefundTransactionStatus;
 import org.nightingaale.paymentservice.model.enums.converter.RefundTransactionStatusConverter;
 
@@ -26,9 +28,15 @@ public class RefundTransactionEntity extends BaseEntity {
     @Column(updatable = false)
     private BigDecimal refundedAmount;
 
-    @Convert(converter = RefundTransactionStatusConverter.class)
     @NotNull
+    @Convert(converter = RefundTransactionStatusConverter.class)
+    @Column(updatable = false)
     private RefundTransactionStatus refundStatus;
+
+    @NotNull
+    @Convert(converter = CurrencyConverter.class)
+    @Column(updatable = false)
+    private CurrencyStatus currency;
 
     @NotNull
     @Column(updatable = false)

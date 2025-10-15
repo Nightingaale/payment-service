@@ -23,7 +23,6 @@ public class PaymentMethodEntity extends BaseEntity {
     @Column(updatable = false)
     private PaymentMethodType type;
 
-
     @NotNull
     @Convert(converter = PaymentMethodProviderConverter.class)
     @Column(updatable = false)
