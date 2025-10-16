@@ -1,6 +1,7 @@
 package org.nightingaale.paymentservice.model.dto;
 
 import jakarta.validation.constraints.NotNull;
+import org.nightingaale.paymentservice.model.enums.CurrencyStatus;
 import org.nightingaale.paymentservice.model.enums.PaymentTransactionStatus;
 
 import java.io.Serializable;
@@ -14,5 +15,5 @@ public record PaymentTransactionDto(
         @NotNull Long paymentTransactionId,
         @NotNull PaymentTransactionStatus paymentStatus,
         @NotNull BigDecimal amount,
-        @NotNull String currency) implements Serializable {
+        @NotNull CurrencyStatus currency) implements Serializable {
 }
