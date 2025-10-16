@@ -1,0 +1,84 @@
+databaseChangeLog:
+  - changeSet:
+      id: 005-create-payments-log
+      author: Nightingaale
+      changes:
+        - createTable:
+            tableName: payments_log
+            columns:
+              - column:
+                  name: log_id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+
+              - column:
+                  name: payment_transaction_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: refund_transaction_id
+                  type: BIGINT
+                  constraints:
+                    nullable: true
+
+              - column:
+                  name: payment_method_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: status
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: true
+
+              - column:
+                  name: provider
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: true
+
+              - column:
+                  name: method_type
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: true
+
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: updated_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: true
+
+        - addForeignKeyConstraint:
+            baseTableName: payments_log
+            baseColumnNames: payment_transaction_id
+            referencedTableName: payments
+            referencedColumnNames: id
+            constraintName: fk_payments_log_payment_transaction
+
+        - addForeignKeyConstraint:
+            baseTableName: payments_log
+            baseColumnNames: refund_transaction_id
+            referencedTableName: refunds
+            referencedColumnNames: id
+            constraintName: fk_payments_log_refund_transaction
+
+        - addForeignKeyConstraint:
+            baseTableName: payments_log
+            baseColumnNames: payment_method_id
+            referencedTableName: payment_methods
+            referencedColumnNames: id
+            constraintName: fk_payments_log_payment_method

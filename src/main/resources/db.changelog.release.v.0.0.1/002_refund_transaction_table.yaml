@@ -1,0 +1,59 @@
+databaseChangeLog:
+  - changeSet:
+      id: 002-create-refund-transaction
+      author: Nightingaale
+      changes:
+        - createTable:
+            tableName: refunds
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: updated_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: true
+
+              - column:
+                  name: version
+                  type: BIGINT
+                  constraints:
+                    nullable: true
+
+
+              - column:
+                  name: refund_transaction_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    unique: true
+
+              - column:
+                  name: refunded_amount
+                  type: DECIMAL(19,2)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: refund_status
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: error_message
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
