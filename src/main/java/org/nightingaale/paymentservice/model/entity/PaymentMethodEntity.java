@@ -10,6 +10,7 @@ import org.nightingaale.paymentservice.model.enums.PaymentMethodProvider;
 import org.nightingaale.paymentservice.model.enums.PaymentMethodType;
 import org.nightingaale.paymentservice.model.enums.converter.PaymentMethodProviderConverter;
 import org.nightingaale.paymentservice.model.enums.converter.PaymentMethodTypeConverter;
+import org.nightingaale.paymentservice.util.CreditCardConverter;
 
 @Getter
 @Setter
@@ -29,6 +30,7 @@ public class PaymentMethodEntity extends BaseEntity {
     private PaymentMethodProvider provider;
 
     @NotNull
+    @Convert(converter = CreditCardConverter.class)
     @Column(length = 16, updatable = false, nullable = true)
     private String maskedDetails;
 
