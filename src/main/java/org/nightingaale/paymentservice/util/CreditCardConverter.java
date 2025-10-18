@@ -3,8 +3,10 @@ package org.nightingaale.paymentservice.util;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 @Converter(autoApply = false)
+@Component
 @Slf4j
 public class CreditCardConverter implements AttributeConverter<String, String> {
 
