@@ -20,6 +20,7 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 @Table(name = "payments_log")
 public class PaymentLogEntity {
 

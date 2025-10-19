@@ -16,7 +16,8 @@ import java.math.BigDecimal;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "payments")
+@Entity
+@Table(name = "payments_transaction")
 public class PaymentTransactionEntity extends BaseEntity {
 
     @NotNull

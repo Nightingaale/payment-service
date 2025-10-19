@@ -4,7 +4,7 @@ databaseChangeLog:
       author: Nightingaale
       changes:
         - createTable:
-            tableName: refunds
+            tableName: refunds_transaction
             columns:
               - column:
                   name: id

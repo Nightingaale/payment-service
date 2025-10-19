@@ -16,6 +16,7 @@ import org.nightingaale.paymentservice.util.CreditCardConverter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 @Table(name = "payment_methods")
 public class PaymentMethodEntity extends BaseEntity {
 
