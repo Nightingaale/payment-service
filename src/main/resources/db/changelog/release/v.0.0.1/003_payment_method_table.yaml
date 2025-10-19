@@ -60,6 +60,6 @@ databaseChangeLog:
         - addForeignKeyConstraint:
             baseTableName: payment_methods
             baseColumnNames: payment_transaction_id
-            referencedTableName: payments
+            referencedTableName: payments_transaction
             referencedColumnNames: id
             constraintName: fk_payment_methods_payment_transaction
