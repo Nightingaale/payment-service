@@ -1,4 +1,4 @@
-databaseChangelog:
+databaseChangeLog:
   - includeAll:
       path: /db/changelog/release
       relativeToChangelogFile: true
