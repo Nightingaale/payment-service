@@ -1,6 +1,5 @@
 package org.nightingaale.paymentservice.model.entity;
 
-import com.thoughtworks.xstream.converters.extended.CurrencyConverter;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -8,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.nightingaale.paymentservice.model.enums.PaymentTransactionStatus;
+import org.nightingaale.paymentservice.model.enums.converter.CurrencyStatusConverter;
 import org.nightingaale.paymentservice.model.enums.converter.PaymentTransactionStatusConverter;
 
 import java.math.BigDecimal;
@@ -33,7 +33,7 @@ public class PaymentTransactionEntity extends BaseEntity {
     private BigDecimal amount;
 
     @NotNull
-    @Convert(converter = CurrencyConverter.class)
+    @Convert(converter = CurrencyStatusConverter.class)
     @Column(updatable = false)
     private String currency;
 }
