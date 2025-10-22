@@ -2,12 +2,8 @@ package org.nightingaale.paymentservice.config;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
-import org.nightingaale.paymentservice.event.CreatePaymentTransactionRequest;
 import org.nightingaale.paymentservice.event.CreatePaymentTransactionResponse;
-import org.nightingaale.paymentservice.event.CreateRefundTransactionRequest;
 import org.nightingaale.paymentservice.event.CreateRefundTransactionResponse;
-import org.nightingaale.paymentservice.model.dto.PaymentTransactionDto;
-import org.nightingaale.paymentservice.model.dto.RefundTransactionDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
