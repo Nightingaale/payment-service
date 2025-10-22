@@ -2,6 +2,8 @@ package org.nightingaale.paymentservice.config;
 
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
+import org.nightingaale.paymentservice.event.CreatePaymentTransactionRequest;
+import org.nightingaale.paymentservice.event.CreateRefundTransactionRequest;
 import org.nightingaale.paymentservice.model.dto.PaymentTransactionDto;
 import org.nightingaale.paymentservice.model.dto.RefundTransactionDto;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,22 +33,22 @@ public class KafkaProducerConfig {
     }
 
     @Bean
-    public ProducerFactory<String, PaymentTransactionDto> paymentTransactionProducerFactory() {
+    public ProducerFactory<String, CreatePaymentTransactionRequest> paymentTransactionProducerFactory() {
         return new DefaultKafkaProducerFactory<>(baseConfig());
     }
 
     @Bean
-    public KafkaTemplate<String, PaymentTransactionDto> paymentTransactionKafkaTemplate() {
+    public KafkaTemplate<String, CreatePaymentTransactionRequest> paymentTransactionKafkaTemplate() {
         return new KafkaTemplate<>(paymentTransactionProducerFactory());
     }
 
     @Bean
-    public ProducerFactory<String, RefundTransactionDto> refundTransactionProducerFactory() {
+    public ProducerFactory<String, CreateRefundTransactionRequest> refundTransactionProducerFactory() {
         return new DefaultKafkaProducerFactory<>(baseConfig());
     }
 
     @Bean
-    public KafkaTemplate<String, RefundTransactionDto> refundTransactionKafkaTemplate() {
+    public KafkaTemplate<String, CreateRefundTransactionRequest> refundTransactionKafkaTemplate() {
         return new KafkaTemplate<>(refundTransactionProducerFactory());
     }
 }
