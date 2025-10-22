@@ -1,8 +1,10 @@
 package org.nightingaale.paymentservice.model.enums;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
+@AllArgsConstructor
 public enum PaymentMethodType {
     GOOGLE_PAY,
     APPLE_PAY,
