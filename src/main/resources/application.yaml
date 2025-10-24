@@ -38,6 +38,10 @@ management:
       exposure:
         include: prometheus
 
+scheduler:
+  retryable-task:
+    delay-ms: 30000
+
 logging:
   level:
     org:
