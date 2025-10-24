@@ -2,6 +2,7 @@ package org.nightingaale.paymentservice.model.entity.outbox;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnTransformer;
 
 import java.time.Instant;
 
@@ -21,7 +22,8 @@ public class OutboxEventEntity {
     private String aggregateId;
     private String type;
 
-    @Lob
+    @Column(columnDefinition = "jsonb")
+    @ColumnTransformer(write = "?::jsonb")
     private String payload;
 
     private Instant createdAt;
