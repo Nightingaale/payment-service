@@ -40,7 +40,7 @@ management:
 
 scheduler:
   retryable-task:
-    delay-ms: 30000
+    delay-ms: 65000
 
 logging:
   level:
