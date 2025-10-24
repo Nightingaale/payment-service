@@ -41,13 +41,11 @@ public class RetryableTaskProcessor {
         }
     }
 
-    private void processCreateNotification(RetryableTaskEntity task) {
-        // TODO: добавить реальную логику — например, отправку события или HTTP-запроса
+    public void processCreateNotification(RetryableTaskEntity task) {
         log.info("Sending create notification request for task {}", task.getId());
     }
 
-    private void processCreateDelivery(RetryableTaskEntity task) {
-        // TODO: аналогично, реальная логика отправки delivery request
+    public void processCreateDelivery(RetryableTaskEntity task) {
         log.info("Sending create delivery request for task {}", task.getId());
     }
 }
