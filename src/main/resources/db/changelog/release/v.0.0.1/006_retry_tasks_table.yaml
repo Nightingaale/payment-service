@@ -1,0 +1,78 @@
+databaseChangeLog:
+  - changeSet:
+      id: 006-create-retry-tasks
+      author: Nightingaale
+      changes:
+        - createTable:
+            tableName: retry_tasks
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+
+              - column:
+                  name: created_at
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: updated_at
+                  type: timestamp
+                  constraints:
+                    nullable: true
+
+              - column:
+                  name: version
+                  type: bigint
+                  constraints:
+                    nullable: true
+
+              - column:
+                  name: payload
+                  type: jsonb
+                  constraints:
+                    nullable: true
+
+              - column:
+                  name: type
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: status
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: retry_time
+                  type: timestamp
+                  constraints:
+                    nullable: true
+
+        - createIndex:
+            tableName: retry_tasks
+            indexName: idx_retry_tasks_type
+            columns:
+              - column:
+                  name: type
+
+        - createIndex:
+            tableName: retry_tasks
+            indexName: idx_retry_tasks_status
+            columns:
+              - column:
+                  name: status
+
+        - createIndex:
+            tableName: retry_tasks
+            indexName: idx_retry_tasks_retry_time
+            columns:
+              - column:
+                  name: retry_time

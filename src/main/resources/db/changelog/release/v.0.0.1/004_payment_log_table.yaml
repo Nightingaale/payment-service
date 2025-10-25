@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 005-create-payments-log
+      id: 004-create-payments-log
       author: Nightingaale
       changes:
         - createTable:
