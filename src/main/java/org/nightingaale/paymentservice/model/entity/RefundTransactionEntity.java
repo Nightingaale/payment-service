@@ -42,4 +42,8 @@ public class RefundTransactionEntity extends BaseEntity {
     @NotNull
     @Column(updatable = false)
     private String errorMessage;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "payment_transaction_id", nullable = false, referencedColumnName = "payment_transaction_id")
+    private PaymentTransactionEntity paymentTransaction;
 }

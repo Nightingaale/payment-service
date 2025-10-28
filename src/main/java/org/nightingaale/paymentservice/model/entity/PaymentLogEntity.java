@@ -37,11 +37,6 @@ public class PaymentLogEntity {
     @JoinColumn(name = "refund_transaction_id", nullable = true)
     private RefundTransactionEntity refundTransaction;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "payment_method_id")
-    private PaymentMethodEntity paymentMethod;
-
-
     @Convert(converter = PaymentTransactionStatusConverter.class)
     @Column(updatable = false)
     private PaymentTransactionStatus status;
