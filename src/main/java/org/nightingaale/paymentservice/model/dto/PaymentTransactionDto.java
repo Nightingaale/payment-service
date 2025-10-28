@@ -1,7 +1,8 @@
 package org.nightingaale.paymentservice.model.dto;
 
 import jakarta.validation.constraints.NotNull;
-import org.nightingaale.paymentservice.model.enums.CurrencyStatus;
+import org.nightingaale.paymentservice.model.enums.PaymentMethodProvider;
+import org.nightingaale.paymentservice.model.enums.PaymentMethodType;
 import org.nightingaale.paymentservice.model.enums.PaymentTransactionStatus;
 
 import java.io.Serializable;
@@ -12,8 +13,12 @@ public record PaymentTransactionDto(
         Long id,
         LocalDateTime createdAt,
         LocalDateTime updatedAt,
+        Long version,
         @NotNull Long paymentTransactionId,
         @NotNull PaymentTransactionStatus paymentStatus,
         @NotNull BigDecimal amount,
-        @NotNull CurrencyStatus currency) implements Serializable {
+        @NotNull String currency,
+        @NotNull PaymentMethodType type,
+        @NotNull PaymentMethodProvider provider,
+        @NotNull String maskedDetails) implements Serializable {
 }

@@ -1,21 +1,23 @@
 package org.nightingaale.paymentservice.event;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.NotNull;
+import org.nightingaale.paymentservice.model.enums.PaymentMethodProvider;
+import org.nightingaale.paymentservice.model.enums.PaymentMethodType;
 import org.nightingaale.paymentservice.model.enums.PaymentTransactionStatus;
-
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class CreatePaymentTransactionRequest {
-    private Long paymentTransactionId;
-    private PaymentTransactionStatus paymentStatus;
-    private BigDecimal amount;
-    private String currency;
-    private String message;
-    private LocalDateTime requestAt;
+public record CreatePaymentTransactionRequest(
+        Long id,
+        LocalDateTime createdAt,
+        LocalDateTime updatedAt,
+        Long version,
+        @NotNull Long paymentTransactionId,
+        @NotNull PaymentTransactionStatus paymentStatus,
+        @NotNull BigDecimal amount,
+        @NotNull String currency,
+        @NotNull PaymentMethodType type,
+        @NotNull PaymentMethodProvider provider,
+        @NotNull String maskedDetails) implements Serializable {
 }
