@@ -44,6 +44,7 @@ public class RefundTransactionEntity extends BaseEntity {
     private String errorMessage;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "payment_transaction_id", nullable = false, referencedColumnName = "payment_transaction_id")
+    @JoinColumn(name = "payment_id", nullable = false)
     private PaymentTransactionEntity paymentTransaction;
+
 }
