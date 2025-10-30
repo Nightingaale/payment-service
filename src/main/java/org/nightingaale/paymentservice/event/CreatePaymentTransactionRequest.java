@@ -1,11 +1,15 @@
 package org.nightingaale.paymentservice.event;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.nightingaale.paymentservice.model.enums.PaymentMethodProvider;
 import org.nightingaale.paymentservice.model.enums.PaymentMethodType;
 import org.nightingaale.paymentservice.model.enums.PaymentTransactionStatus;
+import org.nightingaale.paymentservice.util.CreditCardJsonSerializer;
+
 import java.math.BigDecimal;
 
 @Data
@@ -18,6 +22,8 @@ public class CreatePaymentTransactionRequest {
     private String currency;
     private PaymentMethodType type;
     private PaymentMethodProvider provider;
+
+    @JsonSerialize(using = CreditCardJsonSerializer.class)
     private String maskedDetails;
 }
 
