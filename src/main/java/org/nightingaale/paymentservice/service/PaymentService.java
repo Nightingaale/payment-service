@@ -7,12 +7,15 @@ import org.nightingaale.paymentservice.event.CreatePaymentTransactionRequest;
 import org.nightingaale.paymentservice.handler.api.PaymentMethodHandler;
 import org.nightingaale.paymentservice.mapper.PaymentTransactionMapper;
 import org.nightingaale.paymentservice.mapper.PaymentTransactionRequestMapper;
+import org.nightingaale.paymentservice.mapper.outbox.OutboxEventFactoryMapper;
+import org.nightingaale.paymentservice.mapper.outbox.OutboxEventMapper;
 import org.nightingaale.paymentservice.model.dto.PaymentMethodDto;
 import org.nightingaale.paymentservice.model.dto.PaymentTransactionDto;
 import org.nightingaale.paymentservice.model.entity.PaymentTransactionEntity;
+import org.nightingaale.paymentservice.model.entity.outbox.OutboxEventEntity;
 import org.nightingaale.paymentservice.model.enums.PaymentMethodType;
 import org.nightingaale.paymentservice.repository.PaymentTransactionRepository;
-import org.springframework.kafka.core.KafkaTemplate;
+import org.nightingaale.paymentservice.repository.outbox.OutboxRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,19 +28,20 @@ import java.util.Optional;
 public class PaymentService {
     private final PaymentTransactionRepository paymentTransactionRepository;
     private final PaymentTransactionRequestMapper transactionRequestMapper;
-    private final KafkaTemplate<String, CreatePaymentTransactionRequest> paymentTransactionKafkaTemplate;
     private final PaymentTransactionMapper paymentTransactionMapper;
     private final List<PaymentMethodHandler> paymentMethodHandlers;
+    private final OutboxRepository outboxRepository;
+    private final OutboxEventFactoryMapper outboxEventFactoryMapper;
 
     @Transactional
     public void createPaymentTransaction(CreatePaymentTransactionRequest request) {
         try {
-            if (paymentTransactionRepository.existsById(request.getPaymentTransactionId())) {
-                log.warn("[Payment transaction with ID: {} already exists]", request.getPaymentTransactionId());
+            if (!paymentTransactionRepository.existsById(request.getPaymentTransactionId())) {
+                log.warn("[Payment transaction with ID: {} doesn't exist]", request.getPaymentTransactionId());
                 return;
             }
 
-            log.info("[Start processing payment transaction ID: {}]", request.getPaymentTransactionId());
+            log.info("[Start processing payment transaction ID for user with ID: {}, {}]", request.getPaymentTransactionId(), request.getUserId());
 
             PaymentMethodType methodType = request.getPaymentMethodType();
             PaymentMethodHandler handler = paymentMethodHandlers.stream()
@@ -51,11 +55,10 @@ public class PaymentService {
             transactionEntity.setMaskedDetails(processedDetails.maskedDetails());
             paymentTransactionRepository.save(transactionEntity);
 
+            OutboxEventEntity outboxEventEntity = outboxEventFactoryMapper.fromPaymentTransaction(transactionEntity);
+            outboxRepository.save(outboxEventEntity);
+
             log.info("[Payment transaction saved: {}]", transactionEntity.getId());
-
-            paymentTransactionKafkaTemplate.send("payment-transaction-create", request);
-            log.info("[Kafka event sent transactionID: {}]", request.getPaymentTransactionId());
-
         } catch (RuntimeException e) {
             log.error("[Payment transaction with ID: {} could not be created]", request.getPaymentTransactionId(), e);
             throw e;
@@ -63,8 +66,8 @@ public class PaymentService {
     }
 
     @Transactional
-    public Optional<PaymentTransactionDto> getPaymentTransaction(Long paymentTransactionId) {
-        return paymentTransactionRepository.findById(paymentTransactionId)
+    public Optional<?> getPaymentTransaction(String paymentTransactionId) {
+        return paymentTransactionRepository.findByPaymentTransactionId(paymentTransactionId)
                 .map(paymentTransactionMapper::toDto);
     }
 }
