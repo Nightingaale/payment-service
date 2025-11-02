@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateRefundTransactionRequest {
-    private Long refundTransactionId;
+    private String refundTransactionId;
     private BigDecimal refundedAmount;
     private PaymentTransactionStatus paymentStatus;
     private LocalDateTime requestAt;

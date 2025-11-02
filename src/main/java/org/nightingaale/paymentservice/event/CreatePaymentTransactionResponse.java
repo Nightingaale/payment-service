@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreatePaymentTransactionResponse {
-    private Long paymentTransactionId;
+    private String paymentTransactionId;
     private PaymentTransactionStatus paymentStatus;
     private BigDecimal amount;
     private String currency;

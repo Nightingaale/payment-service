@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreatePaymentTransactionRequest {
-    private Long paymentTransactionId;
+    private String paymentTransactionId;
     private String userId;
     private PaymentTransactionStatus paymentStatus;
     private BigDecimal amount;
