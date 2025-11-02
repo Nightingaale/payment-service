@@ -25,9 +25,9 @@ import java.time.LocalDateTime;
 public class PaymentLogEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(unique = true, nullable = false, updatable = false)
-    private Long logId;
+    private String logId;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "payment_transaction_id")

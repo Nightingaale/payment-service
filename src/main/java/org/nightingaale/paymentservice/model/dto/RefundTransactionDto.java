@@ -8,10 +8,10 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public record RefundTransactionDto(
-        Long id,
+        String id,
         LocalDateTime createdAt,
         LocalDateTime updatedAt,
-        @NotNull Long refundTransactionId,
+        @NotNull String refundTransactionId,
         @NotNull BigDecimal refundedAmount,
         @NotNull PaymentTransactionStatus paymentStatus,
         @NotNull String errorMessage) implements Serializable {

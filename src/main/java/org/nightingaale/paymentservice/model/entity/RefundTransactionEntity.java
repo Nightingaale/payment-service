@@ -22,8 +22,9 @@ import java.math.BigDecimal;
 public class RefundTransactionEntity extends BaseEntity {
 
     @NotNull
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(updatable = false, unique = true)
-    private Long refundTransactionId;
+    private String refundTransactionId;
 
     @NotNull
     @Column(updatable = false)
@@ -46,5 +47,4 @@ public class RefundTransactionEntity extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "payment_id", nullable = false)
     private PaymentTransactionEntity paymentTransaction;
-
 }

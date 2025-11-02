@@ -10,11 +10,11 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public record PaymentTransactionDto(
-        Long id,
+        String id,
         LocalDateTime createdAt,
         LocalDateTime updatedAt,
         Long version,
-        @NotNull Long paymentTransactionId,
+        @NotNull String paymentTransactionId,
         @NotNull PaymentTransactionStatus paymentStatus,
         @NotNull BigDecimal amount,
         @NotNull String currency,

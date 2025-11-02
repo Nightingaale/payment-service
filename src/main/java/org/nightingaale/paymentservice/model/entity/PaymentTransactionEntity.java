@@ -26,8 +26,9 @@ import java.math.BigDecimal;
 public class PaymentTransactionEntity extends BaseEntity {
 
     @NotNull
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(unique = true, updatable = false)
-    private Long paymentTransactionId;
+    private String paymentTransactionId;
 
     @Convert(converter = PaymentTransactionStatusConverter.class)
     @NotNull

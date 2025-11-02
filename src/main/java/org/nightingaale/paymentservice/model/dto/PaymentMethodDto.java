@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 public record PaymentMethodDto(
-        Long id,
+        String id,
         LocalDateTime createdAt,
         LocalDateTime updatedAt,
         @NotNull PaymentMethodType type,
