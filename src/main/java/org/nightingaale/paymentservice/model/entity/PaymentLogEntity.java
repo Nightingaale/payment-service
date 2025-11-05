@@ -15,6 +15,7 @@ import org.nightingaale.paymentservice.model.enums.converter.PaymentMethodTypeCo
 import org.nightingaale.paymentservice.model.enums.converter.PaymentTransactionStatusConverter;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -27,7 +28,7 @@ public class PaymentLogEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(unique = true, nullable = false, updatable = false)
-    private String logId;
+    private UUID logId;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "payment_transaction_id")
