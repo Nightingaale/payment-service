@@ -41,6 +41,7 @@ public class PaymentService {
 
         try {
             String paymentTransactionId = UUID.randomUUID().toString();
+            request.setPaymentTransactionId(paymentTransactionId);
 
             log.info("[Start processing payment transaction ID for user with ID: {}, {}]", request.getPaymentTransactionId(), request.getUserId());
 
