@@ -10,7 +10,6 @@ import org.nightingaale.paymentservice.model.enums.CurrencyStatus;
 import org.nightingaale.paymentservice.model.enums.RefundTransactionStatus;
 import org.nightingaale.paymentservice.model.enums.converter.CurrencyStatusConverter;
 import org.nightingaale.paymentservice.model.enums.converter.RefundTransactionStatusConverter;
-import org.nightingaale.paymentservice.util.db.StringUUIDConverter;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -23,7 +22,6 @@ import java.util.UUID;
 @Table(name = "refunds_transaction")
 public class RefundTransactionEntity extends BaseEntity {
 
-    @Convert(converter = StringUUIDConverter.class)
     @NotNull
     @Column(updatable = false, columnDefinition = "uuid")
     private String refundTransactionId;

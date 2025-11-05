@@ -40,6 +40,7 @@ public class PaymentService {
         log.info("[Received userId from user-service: {}]", request.getUserId());
 
         try {
+            String paymentTransactionId = UUID.randomUUID().toString();
 
             log.info("[Start processing payment transaction ID for user with ID: {}, {}]", request.getPaymentTransactionId(), request.getUserId());
 
@@ -53,11 +54,8 @@ public class PaymentService {
 
             PaymentTransactionEntity transactionEntity = transactionRequestMapper.toEntity(request);
 
-            if (transactionEntity.getPaymentTransactionId() == null || transactionEntity.getPaymentTransactionId().isBlank()) {
-                transactionEntity.setPaymentTransactionId(UUID.randomUUID().toString());
-            }
-
             transactionEntity.setMaskedDetails(processedDetails.maskedDetails());
+            transactionEntity.setPaymentTransactionId(paymentTransactionId);
             paymentTransactionRepository.save(transactionEntity);
 
             OutboxEventEntity outboxEventEntity = outboxEventFactoryMapper.fromPaymentTransaction(transactionEntity);
