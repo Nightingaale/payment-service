@@ -33,6 +33,11 @@ databaseChangeLog:
                   constraints:
                     nullable: true
               - column:
+                  name: version
+                  type: bigint
+                  constraints:
+                    nullable: true
+              - column:
                   name: created_at
                   type: timestamp
                   defaultValueComputed: CURRENT_TIMESTAMP

@@ -22,6 +22,9 @@ public class OutboxEventEntity {
     private String aggregateId;
     private String type;
 
+    @Version
+    private Long version;
+
     @Column(columnDefinition = "jsonb")
     @ColumnTransformer(write = "?::jsonb")
     private String payload;
