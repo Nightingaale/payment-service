@@ -7,6 +7,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum RetryableTaskStatus {
     FAILED("FAILED"),
+    PENDING("PENDING"),
+    RETRYING("RETRYING"),
     IN_PROGRESS("IN PROGRESS"),
     SUCCESS("SUCCESS");
 
