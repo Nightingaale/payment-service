@@ -23,7 +23,7 @@ public class CreditCardConverter implements AttributeConverter<String, String> {
 
         int hidden = Math.min(12, digits.length() - 4);
         String masked = "*".repeat(hidden) + digits.substring(digits.length() - 4);
-        log.info("Credit card number was converted: {}", attribute);
+        log.info("Credit card number was converted: {}", masked);
         return masked;
     }
 
