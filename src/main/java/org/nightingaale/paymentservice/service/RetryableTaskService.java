@@ -20,10 +20,10 @@ public class RetryableTaskService {
     private final RetryableTaskRepository retryableTaskRepository;
     private final RetryableTaskMapper retryableTaskMapper;
 
-    @Value("${retryabletask.timeoutInSeconds}")
+    @Value("${retryable-task.timeoutInSeconds}")
     private Integer timeoutInSeconds;
 
-    @Value("${retryabletask.limit}")
+    @Value("${retryable-task.limit}")
     private Integer limit;
 
     @Transactional
