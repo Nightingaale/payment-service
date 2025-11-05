@@ -24,7 +24,6 @@ public class RetryableTaskScheduler {
     private final RetryableTaskProcessor retryableTaskProcessor;
 
     @Scheduled(fixedDelayString = "${scheduler.retryable-task.delay-ms}")
-    @Transactional
     public void processRetryableTasks() {
         Instant now = Instant.now();
         log.info("Starting scheduled retryable task processing at {}", now);
