@@ -12,6 +12,7 @@ import org.nightingaale.paymentservice.model.enums.converter.CurrencyStatusConve
 import org.nightingaale.paymentservice.model.enums.converter.RefundTransactionStatusConverter;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -22,9 +23,8 @@ import java.math.BigDecimal;
 public class RefundTransactionEntity extends BaseEntity {
 
     @NotNull
-    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(updatable = false, unique = true)
-    private String refundTransactionId;
+    private UUID refundTransactionId;
 
     @NotNull
     @Column(updatable = false)

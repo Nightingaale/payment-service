@@ -16,6 +16,7 @@ import org.nightingaale.paymentservice.model.enums.converter.PaymentTransactionS
 import org.nightingaale.paymentservice.util.CreditCardConverter;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -26,9 +27,8 @@ import java.math.BigDecimal;
 public class PaymentTransactionEntity extends BaseEntity {
 
     @NotNull
-    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(unique = true, updatable = false)
-    private String paymentTransactionId;
+    private UUID paymentTransactionId;
 
     @Convert(converter = PaymentTransactionStatusConverter.class)
     @NotNull
@@ -55,7 +55,7 @@ public class PaymentTransactionEntity extends BaseEntity {
 
     @NotNull
     @Convert(converter = CreditCardConverter.class)
-    @Column(length = 19, updatable = false, nullable = true)
+    @Column(length = 16, updatable = false, nullable = false)
     private String maskedDetails;
 
 }
