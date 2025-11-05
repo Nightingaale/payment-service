@@ -24,7 +24,7 @@ public class RefundTransactionEntity extends BaseEntity {
 
     @NotNull
     @Column(updatable = false, unique = true)
-    private UUID refundTransactionId;
+    private String refundTransactionId;
 
     @NotNull
     @Column(updatable = false)
@@ -47,4 +47,11 @@ public class RefundTransactionEntity extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "payment_id", nullable = false)
     private PaymentTransactionEntity paymentTransaction;
+
+    @PrePersist
+    public void generatePaymentTransactionId() {
+        if (refundTransactionId == null || refundTransactionId.isBlank()) {
+            refundTransactionId = UUID.randomUUID().toString();
+        }
+    }
 }
