@@ -10,7 +10,6 @@ import org.nightingaale.paymentservice.service.processor.RetryableTaskProcessor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.List;
@@ -26,7 +25,7 @@ public class RetryableTaskScheduler {
     @Scheduled(fixedDelayString = "${scheduler.retryable-task.delay-ms}")
     public void processRetryableTasks() {
         Instant now = Instant.now();
-        log.info("Starting scheduled retryable task processing at {}", now);
+        log.info("[Starting scheduled retryable task processing at {}]", now);
         for (RetryableTaskType type : RetryableTaskType.values()) {
             try {
                 List<RetryableTaskEntity> tasks = retryableTaskRepository.findRetryableTaskForProcessing(
@@ -37,22 +36,22 @@ public class RetryableTaskScheduler {
                 );
 
                 if (tasks.isEmpty()) {
-                    log.debug("No retryable tasks found for type {}", type);
+                    log.debug("[No retryable tasks found for type {}]", type);
                     continue;
                 }
 
-                log.info("Found {} tasks for type {}", tasks.size(), type);
+                log.info("[Found {} tasks for type {}]", tasks.size(), type);
                 for (RetryableTaskEntity task : tasks) {
                     try {
                         retryableTaskProcessor.processTask(task);
                     } catch (RuntimeException e) {
-                        log.error("Failed to process task {}: {}", task.getId(), e.getMessage(), e);
+                        log.error("[Failed to process task {}: {}]", task.getId(), e.getMessage(), e);
                     }
                 }
             } catch (Exception e) {
-                log.error("Error while processing retryable tasks for type {}: {}", type, e.getMessage(), e);
+                log.error("[Error while processing retryable tasks for type {}: {}]", type, e.getMessage(), e);
             }
         }
-        log.info("Finished scheduled retryable task processing");
+        log.info("[Finished scheduled retryable task processing]");
     }
 }

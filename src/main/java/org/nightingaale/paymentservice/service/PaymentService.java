@@ -59,6 +59,7 @@ public class PaymentService {
             transactionEntity.setPaymentTransactionId(paymentTransactionId);
             paymentTransactionRepository.save(transactionEntity);
 
+            log.info("[Start processing event in Transactional Outbox for transaction with ID: {}]", transactionEntity.getPaymentTransactionId());
             OutboxEventEntity outboxEventEntity = outboxEventFactoryMapper.fromPaymentTransaction(transactionEntity);
             outboxRepository.save(outboxEventEntity);
 

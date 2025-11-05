@@ -9,7 +9,6 @@ import org.nightingaale.paymentservice.repository.outbox.OutboxRepository;
 import org.nightingaale.paymentservice.service.RetryableTaskService;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,7 +21,6 @@ public class OutboxToRetryTasksScheduler {
     private final RetryableTaskService retryableTaskService;
 
     @Scheduled(fixedDelayString = "${scheduler.outbox-to-retryable.delay-ms}")
-    @Transactional
     public void createRetryableTaskFromOutbox() {
 
         List<OutboxEventEntity> unprocessedEvents = outboxRepository.findAll()
@@ -31,14 +29,14 @@ public class OutboxToRetryTasksScheduler {
                 .toList();
 
         if (unprocessedEvents.isEmpty()) {
-            log.debug("No unprocessed Outbox events found");
+            log.debug("[No unprocessed Outbox events found]");
             return;
         }
 
-        log.info("Found {} unprocessed Outbox events, creating RetryableTasks", unprocessedEvents.size());
+        log.info("[Found {} unprocessed Outbox events, creating RetryableTasks]", unprocessedEvents.size());
 
         List<RetryableTaskEntity> retryableTasks = retryableTaskService.createRetryableTasks(unprocessedEvents, RetryableTaskType.SEND_CREATE_DELIVERY_REQUEST);
 
-        log.info("Created {} RetryableTasks for Outbox events", retryableTasks.size());
+        log.info("[Created {} RetryableTasks for Outbox events]", retryableTasks.size());
     }
 }
