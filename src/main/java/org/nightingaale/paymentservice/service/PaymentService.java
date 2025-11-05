@@ -36,7 +36,7 @@ public class PaymentService {
     public void createPaymentTransaction(CreatePaymentTransactionRequest request) {
 
         request.setUserId(userServiceClient.sendId(request).getUserId());
-        log.info("Received userId from user-service", request.getUserId());
+        log.info("[Received userId from user-service: {}]", request.getUserId());
 
         try {
             if (!paymentTransactionRepository.existsById(request.getUserId())) {
