@@ -8,7 +8,6 @@ import org.nightingaale.paymentservice.model.entity.outbox.OutboxEventEntity;
 import org.nightingaale.paymentservice.model.entity.outbox.RetryableTaskEntity;
 import org.nightingaale.paymentservice.model.enums.outbox.RetryableTaskType;
 import org.nightingaale.paymentservice.repository.outbox.RetryableTaskRepository;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,12 +18,6 @@ import java.util.List;
 public class RetryableTaskService {
     private final RetryableTaskRepository retryableTaskRepository;
     private final RetryableTaskMapper retryableTaskMapper;
-
-    @Value("${retryable-task.timeoutInSeconds}")
-    private Integer timeoutInSeconds;
-
-    @Value("${retryable-task.limit}")
-    private Integer limit;
 
     @Transactional
     public List<RetryableTaskEntity> createRetryableTasks(List<OutboxEventEntity> outboxes, RetryableTaskType type) {
