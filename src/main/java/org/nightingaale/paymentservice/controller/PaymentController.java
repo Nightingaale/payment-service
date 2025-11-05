@@ -2,10 +2,13 @@ package org.nightingaale.paymentservice.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.nightingaale.paymentservice.event.CreatePaymentTransactionRequest;
-import org.nightingaale.paymentservice.model.dto.PaymentTransactionDto;
 import org.nightingaale.paymentservice.service.PaymentService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -15,14 +18,16 @@ public class PaymentController {
     private final PaymentService paymentService;
 
     @PostMapping("/transaction")
-    public ResponseEntity<?> createPaymentRequest(@RequestBody CreatePaymentTransactionRequest request) {
+    public ResponseEntity<?> createPaymentRequest(@RequestBody CreatePaymentTransactionRequest request, @AuthenticationPrincipal Jwt jwt) {
+        UUID userId = UUID.fromString(jwt.getSubject());
+        request.setUserId(userId.toString());
         paymentService.createPaymentTransaction(request);
         return ResponseEntity.ok("Transaction has been successfully created");
     }
 
     @GetMapping("/history")
-    public ResponseEntity<PaymentTransactionDto> getPaymentTransactionHistory(@PathVariable Long paymentTransactionId) {
-        return paymentService.getPaymentTransaction(paymentTransactionId)
+    public ResponseEntity<?> getPaymentTransactionHistory(@AuthenticationPrincipal Jwt jwt) {
+        return paymentService.getPaymentTransaction(jwt.getSubject())
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

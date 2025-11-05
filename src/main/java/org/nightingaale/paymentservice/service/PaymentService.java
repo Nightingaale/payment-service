@@ -1,16 +1,14 @@
 package org.nightingaale.paymentservice.service;
 
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.nightingaale.paymentservice.client.UserServiceClient;
 import org.nightingaale.paymentservice.event.CreatePaymentTransactionRequest;
 import org.nightingaale.paymentservice.handler.api.PaymentMethodHandler;
 import org.nightingaale.paymentservice.mapper.PaymentTransactionMapper;
 import org.nightingaale.paymentservice.mapper.PaymentTransactionRequestMapper;
 import org.nightingaale.paymentservice.mapper.outbox.OutboxEventFactoryMapper;
-import org.nightingaale.paymentservice.mapper.outbox.OutboxEventMapper;
 import org.nightingaale.paymentservice.model.dto.PaymentMethodDto;
-import org.nightingaale.paymentservice.model.dto.PaymentTransactionDto;
 import org.nightingaale.paymentservice.model.entity.PaymentTransactionEntity;
 import org.nightingaale.paymentservice.model.entity.outbox.OutboxEventEntity;
 import org.nightingaale.paymentservice.model.enums.PaymentMethodType;
@@ -32,16 +30,21 @@ public class PaymentService {
     private final List<PaymentMethodHandler> paymentMethodHandlers;
     private final OutboxRepository outboxRepository;
     private final OutboxEventFactoryMapper outboxEventFactoryMapper;
+    private final UserServiceClient userServiceClient;
 
     @Transactional
     public void createPaymentTransaction(CreatePaymentTransactionRequest request) {
+
+        request.setUserId(userServiceClient.sendId(request).getUserId());
+        log.info("Received userId from user-service", request.getUserId());
+
         try {
-            if (!paymentTransactionRepository.existsById(request.getPaymentTransactionId())) {
-                log.warn("[Payment transaction with ID: {} doesn't exist]", request.getPaymentTransactionId());
+            if (!paymentTransactionRepository.existsById(request.getUserId())) {
+                log.warn("[User with ID: {} to create transaction doesn't exist]", request.getUserId());
                 return;
             }
 
-            log.info("[Start processing payment transaction ID for user with ID: {}, {}]", request.getPaymentTransactionId(), request.getUserId());
+            log.info("[Start processing payment transaction ID: for user with ID: {}, {}]", request.getPaymentTransactionId(), request.getUserId());
 
             PaymentMethodType methodType = request.getPaymentMethodType();
             PaymentMethodHandler handler = paymentMethodHandlers.stream()
