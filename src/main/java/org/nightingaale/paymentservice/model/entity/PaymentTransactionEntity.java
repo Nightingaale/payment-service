@@ -27,7 +27,7 @@ import java.util.UUID;
 public class PaymentTransactionEntity extends BaseEntity {
 
     @NotNull
-    @Column(updatable = false)
+    @Column(updatable = false, columnDefinition = "uuid")
     private String paymentTransactionId;
 
     @Convert(converter = PaymentTransactionStatusConverter.class)

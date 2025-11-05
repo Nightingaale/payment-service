@@ -27,7 +27,7 @@ public class PaymentLogEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(unique = true, nullable = false, updatable = false)
+    @Column(unique = true, nullable = false, updatable = false, columnDefinition = "uuid")
     private UUID logId;
 
     @OneToOne(fetch = FetchType.LAZY)

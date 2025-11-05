@@ -23,7 +23,7 @@ import java.util.UUID;
 public class RefundTransactionEntity extends BaseEntity {
 
     @NotNull
-    @Column(updatable = false)
+    @Column(updatable = false, columnDefinition = "uuid")
     private String refundTransactionId;
 
     @NotNull
