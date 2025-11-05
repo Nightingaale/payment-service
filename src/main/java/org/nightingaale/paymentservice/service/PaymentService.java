@@ -39,11 +39,6 @@ public class PaymentService {
         log.info("[Received userId from user-service: {}]", request.getUserId());
 
         try {
-            if (!paymentTransactionRepository.existsById(request.getUserId())) {
-                log.warn("[User with ID: {} to create transaction doesn't exist]", request.getUserId());
-                return;
-            }
-
             log.info("[Start processing payment transaction ID: for user with ID: {}, {}]", request.getPaymentTransactionId(), request.getUserId());
 
             PaymentMethodType methodType = request.getPaymentMethodType();
