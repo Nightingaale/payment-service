@@ -9,6 +9,7 @@ import org.nightingaale.paymentservice.model.entity.outbox.OutboxEventEntity;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
 public interface OutboxEventFactoryMapper {
+    @Mapping(target = "id", expression = "java(java.util.UUID.randomUUID().toString())")
     @Mapping(target = "aggregateType", constant = "PaymentTransaction")
     @Mapping(target = "aggregateId", expression = "java(transactionEntity.getId().toString())")
     @Mapping(target = "type", constant = "PaymentTransactionCreated")

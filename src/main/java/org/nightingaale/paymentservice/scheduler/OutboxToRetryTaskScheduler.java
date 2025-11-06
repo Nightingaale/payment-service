@@ -2,15 +2,16 @@ package org.nightingaale.paymentservice.scheduler;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.StaleObjectStateException;
 import org.nightingaale.paymentservice.model.entity.outbox.OutboxEventEntity;
 import org.nightingaale.paymentservice.model.entity.outbox.RetryableTaskEntity;
 import org.nightingaale.paymentservice.model.enums.outbox.RetryableTaskType;
 import org.nightingaale.paymentservice.repository.outbox.OutboxRepository;
 import org.nightingaale.paymentservice.service.RetryableTaskService;
 import org.springframework.data.domain.Pageable;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.List;
@@ -39,10 +40,9 @@ public class OutboxToRetryTaskScheduler {
             outboxRepository.saveAll(unprocessedEvents);
 
             List<RetryableTaskEntity> retryableTasks = retryableTaskService.createRetryableTasks(unprocessedEvents, RetryableTaskType.SEND_CREATE_DELIVERY_REQUEST);
+            log.info("[Creating {} RetryableTasks for Outbox events]", retryableTasks.size());
 
-            log.info("[Created {} RetryableTasks for Outbox events]", retryableTasks.size());
-
-        } catch (org.hibernate.StaleObjectStateException ex) {
+        } catch (ObjectOptimisticLockingFailureException ex) {
             log.warn("[Some Outbox events were already processed by another scheduler]");
         }
     }
