@@ -42,7 +42,7 @@ scheduler:
   retryable-task:
     delay-ms: 65000
   outbox-to-retryable:
-    delay-ms: 30000
+
 
 logging:
   level:
