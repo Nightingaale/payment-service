@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.nightingaale.paymentservice.model.enums.CurrencyStatus;
 import org.nightingaale.paymentservice.model.enums.PaymentMethodProvider;
 import org.nightingaale.paymentservice.model.enums.PaymentMethodType;
 import org.nightingaale.paymentservice.model.enums.PaymentTransactionStatus;
@@ -41,7 +42,7 @@ public class PaymentTransactionEntity extends BaseEntity {
     @NotNull
     @Convert(converter = CurrencyStatusConverter.class)
     @Column(updatable = false)
-    private String currency;
+    private CurrencyStatus currency;
 
     @NotNull
     @Convert(converter = PaymentMethodTypeConverter.class)
