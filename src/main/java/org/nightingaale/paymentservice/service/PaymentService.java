@@ -59,11 +59,6 @@ public class PaymentService {
             transactionEntity.setPaymentTransactionId(paymentTransactionId);
             paymentTransactionRepository.save(transactionEntity);
 
-            log.info("[Start processing event in Transactional Outbox for transaction with ID: {}]", transactionEntity.getPaymentTransactionId());
-            OutboxEventEntity outboxEventEntity = outboxEventFactoryMapper.fromPaymentTransaction(transactionEntity);
-            outboxEventEntity.setId(UUID.randomUUID().toString());
-            outboxRepository.save(outboxEventEntity);
-
             log.info("[Payment transaction saved: {}]", transactionEntity.getId());
         } catch (RuntimeException e) {
             log.error("[Payment transaction with ID: {} could not be created]", request.getPaymentTransactionId(), e);
