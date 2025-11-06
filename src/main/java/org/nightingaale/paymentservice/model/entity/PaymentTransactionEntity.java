@@ -29,7 +29,7 @@ public class PaymentTransactionEntity extends BaseEntity {
 
     @NotNull
     @Column(updatable = false, columnDefinition = "uuid")
-    private String paymentTransactionId;
+    private UUID paymentTransactionId;
 
     @Convert(converter = PaymentTransactionStatusConverter.class)
     @NotNull
@@ -61,8 +61,8 @@ public class PaymentTransactionEntity extends BaseEntity {
 
     @PrePersist
     public void generatePaymentTransactionId() {
-        if (paymentTransactionId == null || paymentTransactionId.isBlank()) {
-            paymentTransactionId = UUID.randomUUID().toString();
+        if (paymentTransactionId == null) {
+            paymentTransactionId = UUID.randomUUID();
         }
     }
 }

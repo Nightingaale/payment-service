@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Slf4j
 @Service
@@ -39,9 +38,6 @@ public class PaymentService {
         log.info("[Received userId from user-service: {}]", request.getUserId());
 
         try {
-            String paymentTransactionId = UUID.randomUUID().toString();
-            request.setPaymentTransactionId(paymentTransactionId);
-
             log.info("[Start processing payment transaction ID for user with ID: {}, {}]", request.getPaymentTransactionId(), request.getUserId());
 
             PaymentMethodType methodType = request.getPaymentMethodType();
@@ -54,7 +50,6 @@ public class PaymentService {
             PaymentTransactionEntity transactionEntity = transactionRequestMapper.toEntity(request);
 
             transactionEntity.setMaskedDetails(processedDetails.maskedDetails());
-            transactionEntity.setPaymentTransactionId(paymentTransactionId);
 
             PaymentMethodProvider provider = paymentProviderHandler.getProviderByCardNumber(request.getPaymentMethod().maskedDetails());
             transactionEntity.setProvider(provider);
