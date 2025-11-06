@@ -31,6 +31,10 @@ public class PaymentTransactionEntity extends BaseEntity {
     @Column(updatable = false, columnDefinition = "uuid")
     private UUID paymentTransactionId;
 
+    @NotNull
+    @Column(nullable = false, unique = true)
+    private String userId;
+
     @Convert(converter = PaymentTransactionStatusConverter.class)
     @NotNull
     private PaymentTransactionStatus paymentStatus;

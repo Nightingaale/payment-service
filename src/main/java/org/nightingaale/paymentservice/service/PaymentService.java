@@ -65,8 +65,8 @@ public class PaymentService {
     }
 
     @Transactional
-    public Optional<?> getPaymentTransaction(String paymentTransactionId) {
-        return paymentTransactionRepository.findByPaymentTransactionId(paymentTransactionId)
+    public Optional<?> getPaymentTransactionByUserId(String userId) {
+        return paymentTransactionRepository.findPaymentTransactionByUserId(userId)
                 .map(paymentTransactionMapper::toDto);
     }
 }
