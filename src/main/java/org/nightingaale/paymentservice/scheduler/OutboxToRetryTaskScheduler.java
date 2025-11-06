@@ -1,0 +1,49 @@
+package org.nightingaale.paymentservice.scheduler;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.nightingaale.paymentservice.model.entity.outbox.OutboxEventEntity;
+import org.nightingaale.paymentservice.model.entity.outbox.RetryableTaskEntity;
+import org.nightingaale.paymentservice.model.enums.outbox.RetryableTaskType;
+import org.nightingaale.paymentservice.repository.outbox.OutboxRepository;
+import org.nightingaale.paymentservice.service.RetryableTaskService;
+import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.Instant;
+import java.util.List;
+
+@Slf4j
+@Service
+@RequiredArgsConstructor
+public class OutboxToRetryTaskScheduler {
+
+    private final OutboxRepository outboxRepository;
+    private final RetryableTaskService retryableTaskService;
+
+    @Scheduled(fixedDelayString = "${scheduler.outbox-to-retryable.delay-ms}")
+    public void createRetryableTaskFromOutbox() {
+        Instant now = Instant.now();
+        log.info("[Starting Outbox Scheduler at {}]", now);
+        List<OutboxEventEntity> unprocessedEvents = outboxRepository.findPendingEventsForProcessing(now, Pageable.ofSize(30));
+
+        if (unprocessedEvents.isEmpty()) {
+            log.debug("[No unprocessed Outbox events found]");
+            return;
+        }
+
+        try {
+            unprocessedEvents.forEach(e -> e.setProcessed(true));
+            outboxRepository.saveAll(unprocessedEvents);
+
+            List<RetryableTaskEntity> retryableTasks = retryableTaskService.createRetryableTasks(unprocessedEvents, RetryableTaskType.SEND_CREATE_DELIVERY_REQUEST);
+
+            log.info("[Created {} RetryableTasks for Outbox events]", retryableTasks.size());
+
+        } catch (org.hibernate.StaleObjectStateException ex) {
+            log.warn("[Some Outbox events were already processed by another scheduler]");
+        }
+    }
+}
