@@ -27,7 +27,7 @@ public class PaymentController {
 
     @GetMapping("/history")
     public ResponseEntity<?> getPaymentTransactionHistory(@AuthenticationPrincipal Jwt jwt) {
-        return paymentService.getPaymentTransaction(jwt.getSubject())
+        return paymentService.getPaymentTransactionByUserId(jwt.getSubject())
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
