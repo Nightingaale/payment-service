@@ -8,12 +8,15 @@ import org.nightingaale.paymentservice.handler.api.PaymentMethodHandler;
 import org.nightingaale.paymentservice.handler.provider.PaymentProviderHandler;
 import org.nightingaale.paymentservice.mapper.PaymentTransactionMapper;
 import org.nightingaale.paymentservice.mapper.PaymentTransactionRequestMapper;
+import org.nightingaale.paymentservice.mapper.outbox.OutboxEventFactoryMapper;
 import org.nightingaale.paymentservice.model.dto.PaymentMethodDto;
 import org.nightingaale.paymentservice.model.entity.PaymentTransactionEntity;
+import org.nightingaale.paymentservice.model.entity.outbox.OutboxEventEntity;
 import org.nightingaale.paymentservice.model.enums.PaymentMethodProvider;
 import org.nightingaale.paymentservice.model.enums.PaymentMethodType;
 import org.nightingaale.paymentservice.model.enums.PaymentTransactionStatus;
 import org.nightingaale.paymentservice.repository.PaymentTransactionRepository;
+import org.nightingaale.paymentservice.repository.outbox.OutboxRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +33,8 @@ public class PaymentService {
     private final List<PaymentMethodHandler> paymentMethodHandlers;
     private final PaymentProviderHandler paymentProviderHandler;
     private final UserServiceClient userServiceClient;
+    private final OutboxEventFactoryMapper outboxEventFactoryMapper;
+    private final OutboxRepository outboxRepository;
 
     @Transactional
     public void createPaymentTransaction(CreatePaymentTransactionRequest request) {
@@ -55,6 +60,9 @@ public class PaymentService {
             transactionEntity.setProvider(provider);
 
             transactionEntity.setPaymentStatus(PaymentTransactionStatus.PROCESSING);
+
+            OutboxEventEntity outbox = outboxEventFactoryMapper.fromPaymentTransaction(transactionEntity);
+            outboxRepository.save(outbox);
 
             paymentTransactionRepository.save(transactionEntity);
             log.info("[Payment transaction saved: {}]", transactionEntity.getId());
