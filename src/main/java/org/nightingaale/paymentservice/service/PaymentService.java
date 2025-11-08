@@ -1,5 +1,6 @@
 package org.nightingaale.paymentservice.service;
 
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.nightingaale.paymentservice.client.UserServiceClient;
@@ -16,7 +17,6 @@ import org.nightingaale.paymentservice.model.enums.PaymentMethodProvider;
 import org.nightingaale.paymentservice.model.enums.PaymentMethodType;
 import org.nightingaale.paymentservice.model.enums.PaymentTransactionStatus;
 import org.nightingaale.paymentservice.repository.PaymentTransactionRepository;
-import org.nightingaale.paymentservice.repository.outbox.OutboxRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,7 +34,7 @@ public class PaymentService {
     private final PaymentProviderHandler paymentProviderHandler;
     private final UserServiceClient userServiceClient;
     private final OutboxEventFactoryMapper outboxEventFactoryMapper;
-    private final OutboxRepository outboxRepository;
+    private final EntityManager entityManager;
 
     @Transactional
     public void createPaymentTransaction(CreatePaymentTransactionRequest request) {
@@ -65,7 +65,7 @@ public class PaymentService {
                     .save(transactionEntity);
 
             OutboxEventEntity outbox = outboxEventFactoryMapper.fromPaymentTransaction(savedTransaction);
-            outboxRepository.save(outbox);
+            entityManager.persist(outbox);
 
             log.info("[Payment transaction saved: {}]", transactionEntity.getId());
         } catch (RuntimeException e) {
