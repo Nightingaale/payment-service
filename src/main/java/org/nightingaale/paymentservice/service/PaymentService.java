@@ -61,11 +61,7 @@ public class PaymentService {
 
             transactionEntity.setPaymentStatus(PaymentTransactionStatus.PROCESSING);
 
-            PaymentTransactionEntity savedTransaction = paymentTransactionRepository
-                    .save(transactionEntity);
-
-            OutboxEventEntity outbox = outboxEventFactoryMapper.fromPaymentTransaction(savedTransaction);
-            entityManager.persist(outbox);
+            paymentTransactionRepository.save(transactionEntity);
 
             log.info("[Payment transaction saved: {}]", transactionEntity.getId());
         } catch (RuntimeException e) {
