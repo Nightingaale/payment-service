@@ -32,7 +32,7 @@ public class PaymentTransactionEntity extends BaseEntity {
     private UUID paymentTransactionId;
 
     @NotNull
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String userId;
 
     @Convert(converter = PaymentTransactionStatusConverter.class)
