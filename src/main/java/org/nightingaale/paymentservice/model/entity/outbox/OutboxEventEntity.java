@@ -5,6 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.ColumnTransformer;
 
 import java.time.Instant;
+import java.util.UUID;
 
 @Entity
 @Table(name = "outbox")
@@ -15,7 +16,7 @@ public class OutboxEventEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+    private UUID id;
 
     private String aggregateType;
     private String aggregateId;
