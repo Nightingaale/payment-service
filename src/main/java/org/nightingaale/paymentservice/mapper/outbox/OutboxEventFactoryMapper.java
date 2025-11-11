@@ -14,7 +14,7 @@ public interface OutboxEventFactoryMapper {
     @Mapping(target = "aggregateType", constant = "PaymentTransaction")
     @Mapping(target = "aggregateId", expression = "java(transactionEntity.getPaymentTransactionId().toString())")
     @Mapping(target = "type", constant = "PaymentTransactionCreated")
-    @Mapping(target = "payload", expression = "java(\"{\\\"transactionId\\\":\\\"\" + transactionEntity.getPaymentTransactionId() + \"\\\"}\")")
+    @Mapping(target = "payload", expression = "java(\"{\\\"transactionId\\\":\\\"\" + transactionEntity.getPaymentTransactionId() + \"\\\",\" +\"\\\"amount\\\":\\\"\" + transactionEntity.getAmount() + \"\\\",\" +\"\\\"currency\\\":\\\"\" + transactionEntity.getCurrency() + \"\\\"}\")")
     @Mapping(target = "createdAt", expression = "java(java.time.Instant.now())")
     @Mapping(target = "processed", constant = "false")
     OutboxEventEntity fromPaymentTransaction(PaymentTransactionEntity transactionEntity);
