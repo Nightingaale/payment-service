@@ -6,6 +6,7 @@ import org.nightingaale.paymentservice.model.entity.outbox.OutboxEventEntity;
 import org.nightingaale.paymentservice.model.entity.outbox.RetryableTaskEntity;
 import org.nightingaale.paymentservice.model.enums.outbox.RetryableTaskType;
 import org.nightingaale.paymentservice.repository.outbox.OutboxRepository;
+import org.nightingaale.paymentservice.service.RetryableTaskService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -20,6 +21,7 @@ import java.util.List;
 public class OutboxToRetryTaskScheduler {
 
     private final OutboxRepository outboxRepository;
+    private final RetryableTaskService retryableTaskService;
 
     @Scheduled(fixedDelayString = "${scheduler.outbox-to-retryable.delay-ms}")
     public void createRetryableTaskFromOutbox() {
@@ -35,6 +37,9 @@ public class OutboxToRetryTaskScheduler {
         try {
             unprocessedEvents.forEach(e -> e.setProcessed(true));
             outboxRepository.saveAll(unprocessedEvents);
+
+            List<RetryableTaskEntity> retryableTasks = retryableTaskService.createRetryableTasks(unprocessedEvents, RetryableTaskType.SEND_CREATE_DELIVERY_REQUEST);
+            log.info("[Creating {} RetryableTasks for Outbox events]", retryableTasks.size());
 
         } catch (ObjectOptimisticLockingFailureException ex) {
             log.warn("[Some Outbox events were already processed by another scheduler]");
