@@ -18,7 +18,7 @@ import java.util.UUID;
 @Mapper(componentModel = "spring", imports = {UUID.class, RetryableTaskStatus.class, Instant.class})
 public interface RetryableTaskMapper {
 
-    @Mapping(target = "id", expression = "java(UUID.randomUUID())")
+    @Mapping(target = "id", ignore = true, expression = "java(UUID.randomUUID())")
     @Mapping(target = "version", constant = "0L")
     @Mapping(target = "createdAt", expression = "java(Instant.now())")
     @Mapping(target = "updatedAt", expression = "java(Instant.now())")
