@@ -48,7 +48,7 @@ public class PaymentService {
         log.info("[Received userId from user-service: {}]", request.getUserId());
 
         try {
-            log.info("[Start processing payment transaction ID for user with ID: {}, {}]", request.getPaymentTransactionId(), request.getUserId());
+            log.info("[Start processing payment transaction for user with ID: {}]", request.getUserId());
 
             PaymentMethodType methodType = request.getPaymentMethodType();
             PaymentMethodHandler handler = paymentMethodHandlers.stream()
