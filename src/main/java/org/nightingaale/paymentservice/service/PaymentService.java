@@ -89,7 +89,7 @@ public class PaymentService {
 
     @Transactional(readOnly = true)
     public List<?> getPaymentTransactionsByUserId(String userId) {
-        return paymentTransactionRepository.findAllPaymentTransactions(userId)
+        return paymentTransactionRepository.findAllByUserId(userId)
                 .stream()
                 .map(paymentTransactionMapper::toDto)
                 .toList();
