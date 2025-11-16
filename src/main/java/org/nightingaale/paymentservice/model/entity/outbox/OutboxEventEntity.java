@@ -3,6 +3,8 @@ package org.nightingaale.paymentservice.model.entity.outbox;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnTransformer;
+import org.nightingaale.paymentservice.model.enums.outbox.OutboxType;
+import org.nightingaale.paymentservice.util.outbox.OutboxTypeConverter;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -20,7 +22,9 @@ public class OutboxEventEntity {
 
     private String aggregateType;
     private String aggregateId;
-    private String type;
+
+    @Convert(converter = OutboxTypeConverter.class)
+    private OutboxType type;
 
     @Version
     private Long version;

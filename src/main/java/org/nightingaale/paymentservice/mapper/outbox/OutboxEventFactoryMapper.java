@@ -13,7 +13,7 @@ public interface OutboxEventFactoryMapper {
     @Mapping(target = "version", ignore = true)
     @Mapping(target = "aggregateType", constant = "PaymentTransaction")
     @Mapping(target = "aggregateId", expression = "java(transactionEntity.getPaymentTransactionId().toString())")
-    @Mapping(target = "type", constant = "PaymentTransactionCreated")
+    @Mapping(target = "type", expression = "java(OutboxType.NEW)")
     @Mapping(target = "payload", expression = "java(\"{\\\"transactionId\\\":\\\"\" + transactionEntity.getPaymentTransactionId() + \"\\\",\\\"userId\\\":\\\"\" + transactionEntity.getUserId() + \"\\\",\\\"amount\\\":\\\"\" + transactionEntity.getAmount() + \"\\\",\\\"currency\\\":\\\"\" + transactionEntity.getCurrency() + \"\\\"}\")")
     @Mapping(target = "createdAt", expression = "java(java.time.Instant.now())")
     @Mapping(target = "processed", constant = "false")
