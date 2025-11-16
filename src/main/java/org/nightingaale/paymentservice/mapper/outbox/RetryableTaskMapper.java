@@ -25,6 +25,7 @@ public interface RetryableTaskMapper {
     @Mapping(source = "outbox", target = "payload", qualifiedByName = "convertObjectToJson")
     @Mapping(target = "retryTime", expression = "java(Instant.now())")
     @Mapping(target = "status", expression = "java(RetryableTaskStatus.IN_PROGRESS)")
+    @Mapping(target = "type", expression = "java(RetryableTaskType.SEND_CREATE_DELIVERY_REQUEST)")
     RetryableTaskEntity toRetryableTask(OutboxEventEntity outbox, RetryableTaskType type);
 
     @Named("convertObjectToJson")
