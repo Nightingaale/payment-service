@@ -3,8 +3,10 @@ package org.nightingaale.paymentservice.repository;
 import org.nightingaale.paymentservice.model.entity.PaymentTransactionEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface PaymentTransactionRepository extends JpaRepository<PaymentTransactionEntity, String> {
     Optional<PaymentTransactionEntity> findPaymentTransactionByUserId(String userId);
+    List<PaymentTransactionEntity> findAllPaymentTransactions(String userId);
 }

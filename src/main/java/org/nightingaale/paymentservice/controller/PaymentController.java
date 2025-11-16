@@ -8,6 +8,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -25,10 +26,16 @@ public class PaymentController {
         return ResponseEntity.ok("Transaction has been successfully created");
     }
 
-    @GetMapping("/history")
-    public ResponseEntity<?> getPaymentTransactionHistory(@AuthenticationPrincipal Jwt jwt) {
+    @GetMapping("/check")
+    public ResponseEntity<?> getPaymentTransactionCheck(@AuthenticationPrincipal Jwt jwt) {
         return paymentService.getPaymentTransactionByUserId(jwt.getSubject())
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/history")
+    public ResponseEntity<List<?>> getPaymentTransactionHistory(@AuthenticationPrincipal Jwt jwt) {
+        List<?> transactions = paymentService.getPaymentTransactionsByUserId(jwt.getSubject());
+        return ResponseEntity.ok(transactions);
     }
 }

@@ -86,4 +86,12 @@ public class PaymentService {
         return paymentTransactionRepository.findPaymentTransactionByUserId(userId)
                 .map(paymentTransactionMapper::toDto);
     }
+
+    @Transactional(readOnly = true)
+    public List<?> getPaymentTransactionsByUserId(String userId) {
+        return paymentTransactionRepository.findAllPaymentTransactions(userId)
+                .stream()
+                .map(paymentTransactionMapper::toDto)
+                .toList();
+    }
 }
