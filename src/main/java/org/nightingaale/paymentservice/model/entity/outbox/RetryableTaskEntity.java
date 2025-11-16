@@ -25,6 +25,7 @@ import java.util.UUID;
 public class RetryableTaskEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @CreatedDate
