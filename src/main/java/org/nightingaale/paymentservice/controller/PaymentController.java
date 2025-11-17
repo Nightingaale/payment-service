@@ -26,13 +26,6 @@ public class PaymentController {
         return ResponseEntity.ok("Transaction has been successfully created");
     }
 
-    @GetMapping("/check")
-    public ResponseEntity<?> getPaymentTransactionCheck(@AuthenticationPrincipal Jwt jwt) {
-        return paymentService.getPaymentTransactionByUserId(jwt.getSubject())
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
-
     @GetMapping("/history")
     public ResponseEntity<List<?>> getPaymentTransactionHistory(@AuthenticationPrincipal Jwt jwt) {
         List<?> transactions = paymentService.getPaymentTransactionsByUserId(jwt.getSubject());
