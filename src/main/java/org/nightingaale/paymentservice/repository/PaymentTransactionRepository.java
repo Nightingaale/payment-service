@@ -7,6 +7,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PaymentTransactionRepository extends JpaRepository<PaymentTransactionEntity, String> {
-    Optional<PaymentTransactionEntity> findPaymentTransactionByUserId(String userId);
+    Optional<PaymentTransactionEntity> findPaymentByUserId(String userId);
     List<PaymentTransactionEntity> findAllByUserId(String userId);
 }
