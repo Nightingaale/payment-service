@@ -2,6 +2,7 @@ package org.nightingaale.paymentservice.model.enums;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public enum PaymentPeriod {
     TODAY {
@@ -23,7 +24,7 @@ public enum PaymentPeriod {
 
         @Override
         public LocalDateTime getEnd() {
-            return LocalDate.now().atStartOfDay();
+            return LocalDate.now().minusDays(1).atTime(LocalTime.MAX);
         }
     },
     LAST_7_DAYS {
