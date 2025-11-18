@@ -2,12 +2,10 @@ package org.nightingaale.paymentservice.util;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 @Converter(autoApply = false)
 @Component
-@Slf4j
 public class CreditCardConverter implements AttributeConverter<String, String> {
 
     @Override
@@ -23,13 +21,11 @@ public class CreditCardConverter implements AttributeConverter<String, String> {
 
         int hidden = Math.min(12, digits.length() - 4);
         String masked = "*".repeat(hidden) + digits.substring(digits.length() - 4);
-        log.info("[Credit card number was converted: {}]", masked);
         return masked;
     }
 
     @Override
     public String convertToEntityAttribute(String dbData) {
-        log.info("[Credit card number was converted to database: {}]", dbData);
         return dbData;
     }
 }
