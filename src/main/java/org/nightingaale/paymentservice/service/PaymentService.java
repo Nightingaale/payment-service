@@ -16,6 +16,7 @@ import org.nightingaale.paymentservice.model.entity.PaymentTransactionEntity;
 import org.nightingaale.paymentservice.model.entity.outbox.OutboxEventEntity;
 import org.nightingaale.paymentservice.model.enums.PaymentMethodProvider;
 import org.nightingaale.paymentservice.model.enums.PaymentMethodType;
+import org.nightingaale.paymentservice.model.enums.PaymentPeriod;
 import org.nightingaale.paymentservice.model.enums.PaymentTransactionStatus;
 import org.nightingaale.paymentservice.repository.PaymentLogRepository;
 import org.nightingaale.paymentservice.repository.PaymentTransactionRepository;
@@ -25,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -87,5 +89,14 @@ public class PaymentService {
                 .stream()
                 .map(paymentTransactionMapper::toDto)
                 .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<?> getPaymentsByPeriod(String userId, PaymentPeriod period) {
+        return paymentTransactionRepository
+                .findByUserIdAndCreatedAtBetween(userId, period.getStart(), period.getEnd())
+                .stream()
+                .map(paymentTransactionMapper::toDto)
+                .collect(Collectors.toList());
     }
 }

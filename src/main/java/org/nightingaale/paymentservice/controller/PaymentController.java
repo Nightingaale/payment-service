@@ -2,6 +2,7 @@ package org.nightingaale.paymentservice.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.nightingaale.paymentservice.event.CreatePaymentTransactionRequest;
+import org.nightingaale.paymentservice.model.enums.PaymentPeriod;
 import org.nightingaale.paymentservice.service.PaymentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -29,6 +30,12 @@ public class PaymentController {
     @GetMapping("/history")
     public ResponseEntity<List<?>> getPaymentTransactionHistory(@AuthenticationPrincipal Jwt jwt) {
         List<?> transactions = paymentService.getPaymentTransactionsByUserId(jwt.getSubject());
+        return ResponseEntity.ok(transactions);
+    }
+
+    @GetMapping("/period")
+    public ResponseEntity<?> getPayments(@AuthenticationPrincipal Jwt jwt, @RequestParam PaymentPeriod period) {
+        List<?> transactions = paymentService.getPaymentsByPeriod(jwt.getSubject(), period);
         return ResponseEntity.ok(transactions);
     }
 }
