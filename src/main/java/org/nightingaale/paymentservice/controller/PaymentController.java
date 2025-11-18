@@ -34,8 +34,8 @@ public class PaymentController {
     }
 
     @GetMapping("/period")
-    public ResponseEntity<?> getPayments(@AuthenticationPrincipal Jwt jwt, @RequestParam PaymentPeriod period) {
-        List<?> transactions = paymentService.getPaymentsByPeriod(jwt.getSubject(), period);
+    public ResponseEntity<?> getPayments(@AuthenticationPrincipal Jwt jwt, @RequestParam PaymentPeriod per) {
+        List<?> transactions = paymentService.getPaymentsByPeriod(jwt.getSubject(), per);
         return ResponseEntity.ok(transactions);
     }
 }
