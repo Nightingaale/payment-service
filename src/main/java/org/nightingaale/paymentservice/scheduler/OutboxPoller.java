@@ -29,7 +29,7 @@ public class OutboxPoller {
         List<OutboxEventEntity> events = outboxRepository.findByType(OutboxType.NEW);
         for (OutboxEventEntity event : events) {
             try {
-                kafkaTemplate.send("payment-transaction-create" + event.getType().name(), event.getAggregateId(), event.getPayload()).get();
+                kafkaTemplate.send("payment-transaction-create", event.getAggregateId(), event.getPayload()).get();
                 event.setType(OutboxType.PENDING);
                 outboxRepository.save(event);
             } catch (Exception e) {
