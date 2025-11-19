@@ -18,5 +18,5 @@ public interface OutboxRepository extends JpaRepository<OutboxEventEntity, Strin
             "ORDER BY o.createdAt ASC")
 
     List<OutboxEventEntity> findPendingEventsForProcessing(Instant until, Pageable pageable, OutboxType type);
-    List<OutboxEventEntity> findByNew(OutboxType type);
+    List<OutboxEventEntity> findByType(OutboxType type);
 }

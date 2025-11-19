@@ -26,7 +26,7 @@ public class OutboxPoller {
     public void processOutboxEvents() {
         Instant now = Instant.now();
         log.info("[Starting Outbox Poller at {}]", now);
-        List<OutboxEventEntity> events = outboxRepository.findByNew(OutboxType.NEW);
+        List<OutboxEventEntity> events = outboxRepository.findByType(OutboxType.NEW);
         for (OutboxEventEntity event : events) {
             try {
                 kafkaTemplate.send("payment-transaction-create" + event.getType().name(), event.getAggregateId(), event.getPayload()).get();
