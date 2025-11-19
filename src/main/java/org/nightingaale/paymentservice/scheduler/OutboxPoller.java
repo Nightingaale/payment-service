@@ -19,7 +19,7 @@ import java.util.List;
 public class OutboxPoller {
 
     private final OutboxRepository outboxRepository;
-    private final KafkaTemplate<String, String> kafkaTemplate;
+    private final KafkaTemplate<String, String> kafkaTemplatePayload;
 
     @Scheduled(fixedDelay = 1000)
     @Transactional
@@ -29,7 +29,7 @@ public class OutboxPoller {
         List<OutboxEventEntity> events = outboxRepository.findByType(OutboxType.NEW);
         for (OutboxEventEntity event : events) {
             try {
-                kafkaTemplate.send("payment-transaction-create", event.getAggregateId(), event.getPayload()).get();
+                kafkaTemplatePayload.send("payment-transaction-create", event.getAggregateId(), event.getPayload()).get();
                 event.setType(OutboxType.PENDING);
                 outboxRepository.save(event);
             } catch (Exception e) {

@@ -26,6 +26,8 @@ public class KafkaProducerConfig {
         configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+
         configProps.put(JsonSerializer.ADD_TYPE_INFO_HEADERS, false);
 
         configProps.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, true);
@@ -53,5 +55,15 @@ public class KafkaProducerConfig {
     @Bean
     public KafkaTemplate<String, CreateRefundTransactionRequest> refundTransactionKafkaTemplate() {
         return new KafkaTemplate<>(refundTransactionProducerFactory());
+    }
+
+    @Bean
+    public ProducerFactory<String, String> stringProducerFactory() {
+        return new DefaultKafkaProducerFactory<>(baseConfig());
+    }
+
+    @Bean
+    public KafkaTemplate<String, String> kafkaTemplatePayload() {
+        return new KafkaTemplate<>(stringProducerFactory());
     }
 }
