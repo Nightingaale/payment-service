@@ -1,5 +1,6 @@
 package org.nightingaale.paymentservice.repository.outbox;
 import org.nightingaale.paymentservice.model.entity.outbox.OutboxEventEntity;
+import org.nightingaale.paymentservice.model.enums.outbox.OutboxType;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,5 +16,7 @@ public interface OutboxRepository extends JpaRepository<OutboxEventEntity, Strin
             "WHERE o.processed = false " +
             "AND o.createdAt <= :until " +
             "ORDER BY o.createdAt ASC")
-    List<OutboxEventEntity> findPendingEventsForProcessing(Instant until, Pageable pageable);
+
+    List<OutboxEventEntity> findPendingEventsForProcessing(Instant until, Pageable pageable, OutboxType type);
+    List<OutboxEventEntity> findByNew(OutboxType type);
 }

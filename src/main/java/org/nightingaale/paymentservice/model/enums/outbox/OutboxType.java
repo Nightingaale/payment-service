@@ -7,7 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum OutboxType {
     NEW("NEW"),
-    PUBLISHED("PENDING"),
+    PENDING("PENDING"),
     CONSUMED("CONSUMED"),
     ERROR("ERROR");
 

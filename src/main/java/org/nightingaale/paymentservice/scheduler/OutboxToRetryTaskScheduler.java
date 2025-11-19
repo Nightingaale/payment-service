@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.nightingaale.paymentservice.model.entity.outbox.OutboxEventEntity;
 import org.nightingaale.paymentservice.model.entity.outbox.RetryableTaskEntity;
+import org.nightingaale.paymentservice.model.enums.outbox.OutboxType;
 import org.nightingaale.paymentservice.model.enums.outbox.RetryableTaskType;
 import org.nightingaale.paymentservice.repository.outbox.OutboxRepository;
 import org.nightingaale.paymentservice.service.RetryableTaskService;
@@ -27,7 +28,7 @@ public class OutboxToRetryTaskScheduler {
     public void createRetryableTaskFromOutbox() {
         Instant now = Instant.now();
         log.info("[Starting Outbox Scheduler at {}]", now);
-        List<OutboxEventEntity> unprocessedEvents = outboxRepository.findPendingEventsForProcessing(now, Pageable.ofSize(30));
+        List<OutboxEventEntity> unprocessedEvents = outboxRepository.findPendingEventsForProcessing(now, Pageable.ofSize(30), OutboxType.ERROR);
 
         if (unprocessedEvents.isEmpty()) {
             log.debug("[No unprocessed Outbox events found]");
