@@ -10,6 +10,7 @@ import org.nightingaale.paymentservice.model.enums.CurrencyStatus;
 import org.nightingaale.paymentservice.model.enums.RefundTransactionStatus;
 import org.nightingaale.paymentservice.model.enums.converter.CurrencyStatusConverter;
 import org.nightingaale.paymentservice.model.enums.converter.RefundTransactionStatusConverter;
+import org.nightingaale.paymentservice.util.CreditCardConverter;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -44,12 +45,13 @@ public class RefundTransactionEntity extends BaseEntity {
     @Column(updatable = false)
     private String errorMessage;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "payment_id", nullable = false)
-    private PaymentTransactionEntity paymentTransaction;
+    @NotNull
+    @Convert(converter = CreditCardConverter.class)
+    @Column(length = 16, updatable = false, nullable = false)
+    private String maskedDetails;
 
     @PrePersist
-    public void generatePaymentTransactionId() {
+    public void generateRefundTransactionId() {
         if (refundTransactionId == null || refundTransactionId.isBlank()) {
             refundTransactionId = UUID.randomUUID().toString();
         }
