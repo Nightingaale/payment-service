@@ -1,7 +1,7 @@
 package org.nightingaale.paymentservice.service;
 
 import lombok.RequiredArgsConstructor;
-import org.nightingaale.paymentservice.mapper.RefundTransactionMapper;
+import org.nightingaale.paymentservice.mapper.outbox.RefundTransactionMapper;
 import org.nightingaale.paymentservice.model.entity.PaymentTransactionEntity;
 import org.nightingaale.paymentservice.model.entity.RefundTransactionEntity;
 import org.nightingaale.paymentservice.repository.RefundTransactionRepository;

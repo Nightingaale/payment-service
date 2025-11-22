@@ -1,4 +1,4 @@
-package org.nightingaale.paymentservice.mapper;
+package org.nightingaale.paymentservice.mapper.outbox;
 
 import org.mapstruct.*;
 import org.nightingaale.paymentservice.model.entity.PaymentTransactionEntity;
@@ -6,6 +6,7 @@ import org.nightingaale.paymentservice.model.entity.RefundTransactionEntity;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface RefundTransactionMapper {
+    @Mapping(target = "id", ignore = true)
     @Mapping(target = "refundTransactionId", ignore = true)
     @Mapping(target = "refundedAmount", source = "transactionEntity.amount")
     @Mapping(target = "refundStatus", expression = "java(RefundTransactionStatus.FAILED)")
