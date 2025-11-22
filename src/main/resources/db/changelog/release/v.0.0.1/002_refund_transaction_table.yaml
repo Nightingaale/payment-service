@@ -65,14 +65,8 @@ databaseChangeLog:
                     nullable: false
 
               - column:
-                  name: payment_id
-                  type: uuid
+                  name: masked_details
+                  type: VARCHAR(19)
                   constraints:
                     nullable: false
-
-        - addForeignKeyConstraint:
-            baseTableName: refunds_transaction
-            baseColumnNames: payment_id
-            referencedTableName: payments_transaction
-            referencedColumnNames: id
-            constraintName: fk_refund_payment_transaction
+                    updatable: false

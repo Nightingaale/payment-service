@@ -69,4 +69,5 @@ databaseChangeLog:
                   name: masked_details
                   type: VARCHAR(19)
                   constraints:
-                    nullable: true
+                    nullable: false
+                    updatable: false

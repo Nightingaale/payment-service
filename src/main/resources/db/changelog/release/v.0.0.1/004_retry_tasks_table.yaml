@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 005-create-retry-tasks
+      id: 004-create-retry-tasks
       author: Nightingaale
       changes:
         - createTable:
