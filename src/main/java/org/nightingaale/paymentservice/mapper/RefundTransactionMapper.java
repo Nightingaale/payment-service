@@ -1,4 +1,4 @@
-package org.nightingaale.paymentservice.mapper.outbox;
+package org.nightingaale.paymentservice.mapper;
 
 import org.mapstruct.*;
 import org.nightingaale.paymentservice.model.entity.PaymentTransactionEntity;
@@ -9,7 +9,7 @@ public interface RefundTransactionMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "refundTransactionId", ignore = true)
     @Mapping(target = "refundedAmount", source = "transactionEntity.amount")
-    @Mapping(target = "refundStatus", expression = "java(RefundTransactionStatus.FAILED)")
+    @Mapping(target = "refundStatus", expression = "java(org.nightingaale.paymentservice.model.enums.RefundTransactionStatus.FAILED)")
     @Mapping(target = "currency", source = "transactionEntity.currency")
     @Mapping(target = "errorMessage", source = "errorMessage")
     @Mapping(target = "maskedDetails", expression = "java(transactionEntity.getMaskedDetails())")
