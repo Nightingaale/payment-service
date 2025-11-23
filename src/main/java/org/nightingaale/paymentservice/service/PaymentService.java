@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.nightingaale.paymentservice.client.UserServiceClient;
 import org.nightingaale.paymentservice.event.CreatePaymentTransactionRequest;
+import org.nightingaale.paymentservice.exception.FailedTransactionException;
 import org.nightingaale.paymentservice.handler.api.PaymentMethodHandler;
 import org.nightingaale.paymentservice.handler.provider.PaymentProviderHandler;
 import org.nightingaale.paymentservice.mapper.PaymentTransactionMapper;
@@ -69,7 +70,7 @@ public class PaymentService {
             outboxRepository.save(outbox);
 
             log.info("[Payment transaction saved: {}]", transactionEntity.getId());
-        } catch (Exception e) {
+        } catch (FailedTransactionException e) {
             log.error("[Payment transaction with ID: {} failed]", request.getPaymentTransactionId(), e);
             refundService.saveRefundTransaction(transactionRequestMapper.toEntity(request), e.getMessage());
             throw e;
