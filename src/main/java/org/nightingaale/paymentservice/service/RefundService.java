@@ -1,14 +1,15 @@
 package org.nightingaale.paymentservice.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.nightingaale.paymentservice.mapper.RefundTransactionMapper;
 import org.nightingaale.paymentservice.model.entity.PaymentTransactionEntity;
-import org.nightingaale.paymentservice.model.entity.RefundTransactionEntity;
 import org.nightingaale.paymentservice.repository.RefundTransactionRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class RefundService {
@@ -18,9 +19,9 @@ public class RefundService {
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void saveRefundTransaction(PaymentTransactionEntity transaction, String errorMessage) {
-        RefundTransactionEntity refund = refundTransactionMapper.toRefund(transaction, errorMessage);
+        var refund = refundTransactionMapper.toRefund(transaction, errorMessage);
         refundTransactionRepository.save(refund);
-
+        log.info("[Payment was failed. Information about transaction with ID was saved: {}]", transaction.getId());
     }
 }
 

@@ -10,11 +10,6 @@ import org.nightingaale.paymentservice.handler.provider.PaymentProviderHandler;
 import org.nightingaale.paymentservice.mapper.PaymentTransactionMapper;
 import org.nightingaale.paymentservice.mapper.PaymentTransactionRequestMapper;
 import org.nightingaale.paymentservice.mapper.outbox.OutboxEventFactoryMapper;
-import org.nightingaale.paymentservice.model.dto.PaymentMethodDto;
-import org.nightingaale.paymentservice.model.entity.PaymentTransactionEntity;
-import org.nightingaale.paymentservice.model.entity.outbox.OutboxEventEntity;
-import org.nightingaale.paymentservice.model.enums.PaymentMethodProvider;
-import org.nightingaale.paymentservice.model.enums.PaymentMethodType;
 import org.nightingaale.paymentservice.model.enums.PaymentPeriod;
 import org.nightingaale.paymentservice.model.enums.PaymentTransactionStatus;
 import org.nightingaale.paymentservice.repository.PaymentTransactionRepository;
@@ -48,25 +43,25 @@ public class PaymentService {
         try {
             log.info("[Start processing payment transaction for user with ID: {}]", request.getUserId());
 
-            PaymentMethodType methodType = request.getPaymentMethodType();
-            PaymentMethodHandler handler = paymentMethodHandlers.stream()
+            var methodType = request.getPaymentMethodType();
+            var handler = paymentMethodHandlers.stream()
                     .filter(h -> h.getPaymentMethodType() == methodType)
                     .findFirst()
                     .orElseThrow(() -> new IllegalArgumentException("[Unsupported payment method type: ]" + methodType));
 
-            PaymentMethodDto processedDetails = handler.process(request.getPaymentMethod());
-            PaymentTransactionEntity transactionEntity = transactionRequestMapper.toEntity(request);
+            var processedDetails = handler.process(request.getPaymentMethod());
+            var transactionEntity = transactionRequestMapper.toEntity(request);
 
             transactionEntity.setMaskedDetails(processedDetails.maskedDetails());
 
-            PaymentMethodProvider provider = paymentProviderHandler.getProviderByCardNumber(request.getPaymentMethod().maskedDetails());
+            var provider = paymentProviderHandler.getProviderByCardNumber(request.getPaymentMethod().maskedDetails());
             transactionEntity.setProvider(provider);
 
             transactionEntity.setPaymentStatus(PaymentTransactionStatus.PROCESSING);
 
             paymentTransactionRepository.save(transactionEntity);
 
-            OutboxEventEntity outbox = outboxEventFactoryMapper.fromPaymentTransaction(transactionEntity);
+            var outbox = outboxEventFactoryMapper.fromPaymentTransaction(transactionEntity);
             outboxRepository.save(outbox);
 
             log.info("[Payment transaction saved: {}]", transactionEntity.getId());
