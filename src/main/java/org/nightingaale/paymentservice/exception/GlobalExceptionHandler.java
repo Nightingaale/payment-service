@@ -15,4 +15,11 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.CONFLICT)
                 .body(Map.of("Error", ex.getMessage()));
     }
+
+    @ExceptionHandler(NotSavedException.class)
+    public ResponseEntity<?> handleNotSavedException(NotSavedException ex) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(Map.of("Error", ex.getMessage()));
+    }
 }
