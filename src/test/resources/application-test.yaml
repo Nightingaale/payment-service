@@ -1,0 +1,56 @@
+spring:
+  task:
+  scheduling:
+    enabled: false
+  application:
+    name: payment-service-test
+  threads:
+    virtual:
+      enabled: false
+
+# Kafka
+  kafka:
+    bootstrap-servers: localhost:9092
+
+# Data JPA
+  jpa:
+    hibernate:
+      ddl-auto: validate  # Hibernate doesn't manage schema
+    show-sql: false
+    open-in-view: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+# Migration(Liquibase)
+  liquibase:
+    enabled: true
+    change-log: classpath:/db/changelog/db.changelog-master.yaml
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    # url / username / password -> Testcontainers
+
+# Healthcheck
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+
+# Eureka Server
+eureka:
+  client:
+    enabled: false
+    register-with-eureka: false
+
+# Logging
+logging:
+  level:
+    org:
+      hibernate: ERROR
+    liquibase: INFO
+
+# Vault Hashicorp
+cloud:
+  vault:
+    enabled: false
+debug: true
